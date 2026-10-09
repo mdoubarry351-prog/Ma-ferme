@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Publié sur https://mdoubarry351-prog.github.io/ma-ferme/admin/
+// Publié sur https://mdoubarry351-prog.github.io/Ma-ferme/admin/
 export default defineConfig({
-  base: '/ma-ferme/admin/',
+  base: '/Ma-ferme/admin/',
   plugins: [react()],
 })
