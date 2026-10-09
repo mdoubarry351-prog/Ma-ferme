@@ -37,9 +37,9 @@ function Segmented({ value, onChange }: { value: Method; onChange: (m: Method) =
 }
 
 export default function Connexion() {
-  const { next } = useLocalSearchParams<{ next?: string }>();
+  const { next, mode: initialMode } = useLocalSearchParams<{ next?: string; mode?: string }>();
   const [method, setMethod] = useState<Method>('phone');
-  const [mode, setMode] = useState<Mode>('login');
+  const [mode, setMode] = useState<Mode>(initialMode === 'register' ? 'register' : 'login');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [pin, setPin] = useState('');

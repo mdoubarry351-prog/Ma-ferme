@@ -74,8 +74,8 @@ export function Screen({
 }
 
 export function Button({
-  label, onPress, disabled, loading, kind = 'primary', style,
-}: { label: string; onPress?: () => void; disabled?: boolean; loading?: boolean; kind?: 'primary' | 'outline' | 'ghost'; style?: ViewStyle }) {
+  label, onPress, disabled, loading, kind = 'primary', style, textColor,
+}: { label: string; onPress?: () => void; disabled?: boolean; loading?: boolean; kind?: 'primary' | 'outline' | 'ghost'; style?: ViewStyle; textColor?: string }) {
   const off = disabled || loading;
   const base: ViewStyle = { height: 56, borderRadius: radius.button, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 8, paddingHorizontal: 16 };
   const look: ViewStyle =
@@ -93,7 +93,7 @@ export function Button({
       style={({ pressed }) => [base, look, pressed && !off ? { opacity: 0.85 } : null, style]}
     >
       {loading ? <ActivityIndicator color={kind === 'primary' ? '#FFFFFF' : color.green} /> : null}
-      <Text style={{ fontFamily: font.heavy, fontSize: kind === 'primary' ? 17 : 15, color: txt }}>{label}</Text>
+      <Text style={{ fontFamily: font.heavy, fontSize: kind === 'primary' ? 17 : 15, color: !off && textColor ? textColor : txt }}>{label}</Text>
     </Pressable>
   );
 }

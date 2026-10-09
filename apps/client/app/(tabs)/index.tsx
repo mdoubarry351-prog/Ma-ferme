@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { salesOpen, useApp } from '../../src/lib/app-state';
 import { gnf } from '../../src/lib/format';
 import { color, font } from '../../src/lib/theme';
 import { Banner, Button, Card, Loading, LogoMark, Row, s, Screen, T, Wordmark } from '../../src/ui/kit';
+import { Bell } from '../../src/ui/bell';
+import { welcomeSeen } from '../../src/lib/prefs';
 
 function Tray() {
   return (
@@ -19,7 +21,11 @@ function Tray() {
 }
 
 export default function Commander() {
-  const { settings, offer, qty, setQty, session, catalogError, reloadCatalog } = useApp();
+  const { settings, offer, qty, setQty, session, authReady, catalogError, reloadCatalog } = useApp();
+  // Premier passage sans compte : écran d'accueil avec connexion / création de compte.
+  useEffect(() => {
+    if (authReady && !session) welcomeSeen().then((seen) => { if (!seen) router.replace('/bienvenue'); });
+  }, [authReady, session]);
   const [manual, setManual] = useState(false);
   const [draft, setDraft] = useState('');
 
@@ -60,6 +66,12 @@ export default function Commander() {
       <Row style={{ gap: 10 }}>
         <LogoMark size={34} />
         <Wordmark />
+        <View style={{ flex: 1 }} />
+        {session ? <Bell /> : (
+          <Pressable onPress={() => router.push({ pathname: '/connexion', params: { next: '/' } })} hitSlop={8} style={{ paddingHorizontal: 14, height: 40, borderRadius: 20, borderWidth: 1.5, borderColor: color.green, justifyContent: 'center' }}>
+            <T v="smallBold" style={{ color: color.greenDark }}>Se connecter</T>
+          </Pressable>
+        )}
       </Row>
       <T v="big">Commander{'\n'}mes œufs</T>
 

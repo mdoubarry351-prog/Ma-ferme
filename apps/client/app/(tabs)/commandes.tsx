@@ -9,6 +9,7 @@ import { fetchOrders, ORDER_STATUS, OrderRow, orderNo, PAYMENT_STATUS, payStatus
 import { supabase } from '../../src/lib/supabase';
 import { color } from '../../src/lib/theme';
 import { Banner, Button, Card, Loading, Pill, Row, s, Screen, T } from '../../src/ui/kit';
+import { Bell } from '../../src/ui/bell';
 
 export default function Commandes() {
   const { session, authReady, setQty, setPreferredAddressId } = useApp();
@@ -56,7 +57,10 @@ export default function Commandes() {
       contentContainerStyle={{ padding: 20, paddingTop: insets.top + 16, gap: 12, maxWidth: 560, width: '100%', alignSelf: 'center' }}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={async () => { setRefreshing(true); await load(); setRefreshing(false); }} />}
     >
-      <T v="title">Mes commandes</T>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <T v="title">Mes commandes</T>
+        <Bell />
+      </View>
       {error ? <Banner tone="bad" title={error} /> : null}
       {orders.length === 0 ? (
         <Card style={{ alignItems: 'center', paddingVertical: 28 }}>
@@ -83,7 +87,7 @@ export default function Commandes() {
               <Pill label={`Paiement : ${ps.label.toLowerCase()}`} tone={ps.tone} />
             </Row>
             {active ? (
-              <Button label="Voir le suivi" style={{ height: 46 }} onPress={() => router.push({ pathname: '/confirmation/[id]', params: { id: o.id } })} />
+              <Button label="Voir le suivi" style={{ height: 46 }} onPress={() => router.push({ pathname: '/suivi/[id]', params: { id: o.id } })} />
             ) : (
               <Button kind="outline" label="↻ Refaire cette commande" loading={redoing === o.id} onPress={() => redo(o)} />
             )}

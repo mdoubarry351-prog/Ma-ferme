@@ -7,6 +7,7 @@ import { supabase } from '../../src/lib/supabase';
 import { color } from '../../src/lib/theme';
 import { AddressList, useAddresses } from '../../src/ui/addresses';
 import { Banner, Button, Card, Loading, Row, Screen, T } from '../../src/ui/kit';
+import { Bell } from '../../src/ui/bell';
 
 type Profile = { first_name: string; full_name: string; business_name: string | null; phone: string | null };
 
@@ -37,12 +38,15 @@ export default function Profil() {
     );
   if (!profile) return <Loading />;
 
-  const name = profile.first_name || profile.full_name || 'Mon compte';
+  const name = profile.full_name || profile.first_name || 'Mon compte';
   const initials = (name[0] ?? '?').toUpperCase() + (profile.business_name?.[0] ?? '').toUpperCase();
 
   return (
     <Screen>
-      <T v="title">Profil</T>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <T v="title">Profil</T>
+        <Bell />
+      </View>
       <Card style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
         <View style={{ width: 52, height: 52, borderRadius: 26, backgroundColor: color.tint, alignItems: 'center', justifyContent: 'center' }}>
           <T v="bodyBold" style={{ fontSize: 18, color: color.greenDark }}>{initials}</T>
@@ -51,6 +55,9 @@ export default function Profil() {
           <T v="bodyBold" style={{ fontSize: 17 }}>{name}</T>
           <T v="small">{[profile.business_name, phoneDisplay(profile.phone)].filter(Boolean).join(' · ')}</T>
         </View>
+        <Pressable onPress={() => router.push('/profil-modifier')} hitSlop={8}>
+          <T v="smallBold" style={{ color: color.green, textDecorationLine: 'underline' }}>Modifier</T>
+        </Pressable>
       </Card>
 
       <T v="h2">Mes adresses</T>

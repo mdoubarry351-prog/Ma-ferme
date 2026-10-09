@@ -8,7 +8,8 @@ import { dateOnly, dayLong, gnf } from '../../src/lib/format';
 import { fetchOrder, METHOD_LABEL, ORDER_STATUS, OrderRow, orderNo, PAYMENT_STATUS, payStatus, units } from '../../src/lib/orders';
 import { supabase } from '../../src/lib/supabase';
 import { color } from '../../src/lib/theme';
-import { Banner, Button, Card, Field, Loading, Pill, s, Screen, T } from '../../src/ui/kit';
+import { Banner, Button, Card, Loading, Pill, s, Screen, T } from '../../src/ui/kit';
+import { PayCard } from '../../src/ui/pay';
 
 export default function Confirmation() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -98,15 +99,7 @@ export default function Confirmation() {
         <View style={[s.rowBetween, { padding: 14 }]}><T v="small">Adresse</T><T v="bodyBold">{where || '—'}</T></View>
       </Card>
 
-      {canPay ? (
-        <Card>
-          <T v="h2">Payer {gnf(order.total_gnf)}</T>
-          <Field label={`Numéro ${METHOD_LABEL[order.payment_method] ?? ''}`} prefix="+224" keyboardType="phone-pad" value={phone} onChangeText={(t) => setPhone(t.replace(/\D/g, '').slice(0, 9))} />
-          <Button label="Payer maintenant" disabled={!/^6\d{8}$/.test(phone)} loading={paying} onPress={pay} />
-          {order.payment_due_at ? <T v="tiny">À payer avant {new Date(order.payment_due_at).toISOString().slice(11, 16)} (heure de Conakry), sinon la réservation est libérée.</T> : null}
-        </Card>
-      ) : null}
-      {payMsg ? <Banner title={payMsg} /> : null}
+      <PayCard order={order} onChanged={load} />
     </Screen>
   );
 }
