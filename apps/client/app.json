@@ -1,0 +1,56 @@
+{
+  "expo": {
+    "name": "Ma Ferme",
+    "slug": "ma-ferme",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "maferme",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "app.maferme.client"
+    },
+    "android": {
+      "package": "app.maferme.client",
+      "adaptiveIcon": {
+        "backgroundColor": "#2E7148",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/images/favicon.png",
+      "name": "Ma Ferme",
+      "shortName": "Ma Ferme",
+      "lang": "fr",
+      "themeColor": "#2E7148",
+      "backgroundColor": "#FBF6EC"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "resizeMode": "contain",
+          "imageWidth": 160,
+          "backgroundColor": "#2E7148"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Ma Ferme utilise tes photos pour montrer ta boutique au livreur."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false,
+      "baseUrl": "/ma-ferme"
+    }
+  }
+}
