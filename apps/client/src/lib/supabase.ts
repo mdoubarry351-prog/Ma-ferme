@@ -15,6 +15,7 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     storage: Platform.OS === 'web' ? (isServer ? undefined : window.localStorage) : AsyncStorage,
     persistSession: !isServer,
     autoRefreshToken: !isServer,
-    detectSessionInUrl: false,
+    // Sur le web, lit les liens reçus par e-mail (confirmation, nouveau mot de passe).
+    detectSessionInUrl: Platform.OS === 'web' && !isServer,
   },
 });

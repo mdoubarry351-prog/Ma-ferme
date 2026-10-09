@@ -1,6 +1,8 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
+import { router } from 'expo-router';
 import { supabase } from './supabase';
+import { completeProfile } from './auth';
 
 export type Offer = {
   offerId: string;
@@ -52,7 +54,11 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       setSession(data.session);
       setAuthReady(true);
     });
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
+    const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
+      setSession(s);
+      if (event === 'SIGNED_IN') completeProfile().catch(() => {});
+      if (event === 'PASSWORD_RECOVERY') setTimeout(() => router.push('/nouveau-mot-de-passe'), 0);
+    });
     return () => sub.subscription.unsubscribe();
   }, []);
 

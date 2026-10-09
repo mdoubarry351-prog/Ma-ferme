@@ -24,6 +24,10 @@ const MESSAGES: Record<string, string> = {
   INVALID_NAME: 'Indique ton prénom.',
   SIGNUP_FAILED: 'Création du compte impossible pour le moment. Réessaie.',
   BAD_LOGIN: 'Numéro ou code incorrect.',
+  BAD_EMAIL_LOGIN: 'E-mail ou mot de passe incorrect.',
+  EMAIL_NOT_CONFIRMED: 'Confirme d’abord ton adresse : ouvre le lien reçu par e-mail.',
+  WEAK_PASSWORD: 'Mot de passe trop court : 8 caractères minimum.',
+  EMAIL_TAKEN: 'Cet e-mail a déjà un compte. Connecte-toi avec ton mot de passe.',
   NETWORK: 'Pas de connexion internet. Vérifie ta connexion et réessaie.',
 };
 
